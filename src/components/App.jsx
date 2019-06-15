@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import Home from '../components/Home';
-import Posts from '../components/Posts';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Home from './Home';
+import Posts from './Posts';
 
 export default class App extends Component {
     render() {
         return (
-            <div>
+            <BrowserRouter>
                 <Route exact path="/" component={Home} />
                 <Route path="/posts" component={Posts} />
-            </div>
+            </BrowserRouter>
         )
     }
 }
