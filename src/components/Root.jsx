@@ -1,7 +1,20 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './components/reducers';
+import reduxThunk from 'redux-thunk';
 
 export default ({ children, initialState = {} }) => {
+
+    const store = createStore(
+        reducers,
+        initialState,
+        applyMiddleware(reduxThunk)
+    );
+
     return (
-        <div>{children}</div>
-    )
+        <Provider store={store}>
+            {children}
+        </Provider>
+    );
 };
