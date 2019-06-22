@@ -1,4 +1,7 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/app';
+import 'firebase/auth'; // 인증
+import 'firebase/firestore'; // DB
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
