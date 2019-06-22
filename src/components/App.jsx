@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ToastContainer, Zoom } from 'react-toastify'
 import firebase from 'firebase/app'
+import * as alerts from '../utils/alerts';
 
 import Home from './Home'
 import Posts from './Posts'
@@ -10,6 +11,7 @@ import HeaderNav from './common/HeaderNav'
 import SignUp from './auth/SignUp'
 import "./assets/styles/app.scss"
 import * as authActions from './actions/auth'
+
 
 class App extends React.Component {
 
@@ -24,7 +26,16 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    this.props.logout()
+    firebase
+        .auth()
+        .signOut()
+        .then(() => {
+            this.props.changeAuth(false)
+            alerts.success('Successfully logged out!')
+        })
+        .catch(error => {
+            alerts.error(error.message)
+        })
   }
 
   render() {
