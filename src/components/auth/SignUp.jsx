@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import { Grid, Container, Button, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import * as actions from '../actions/auth';
 
+/*
 const enhance = connect(
     ({ firebase: { auth, profile } }) => ({
         auth,
         profile
     })
 )
+*/
 
 class SignUp extends Component {
     
     handleSubmit = ({ target }) => {
-        console.log('email', target.elements.email.value);
-        console.log('password', target.elements.password.value);
+        const { email, password } = target.elements;
+        this.props.registerUser(email.value, password.value);
     }
 
     render() {
@@ -40,4 +43,9 @@ class SignUp extends Component {
     }
 }
 
-export default enhance(SignUp);
+const mapStateToProps = ({auth, profile}) => ({
+    auth,
+    profile
+})
+
+export default connect(mapStateToProps, actions)(SignUp);

@@ -1,13 +1,12 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
-import reducers from './reducers';
-import reduxThunk from 'redux-thunk';
-import firebase from 'firebase/app';
-import 'firebase/app';
-import 'firebase/auth'; // 인증
-import 'firebase/firestore'; // DB
+import React from 'react'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import reduxThunk from 'redux-thunk'
+import reducers from './reducers'
+import firebase from 'firebase/app'
+import 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -20,32 +19,22 @@ var firebaseConfig = {
     appId: "1:838396736629:web:b0a2af5fa9bf0ef7"
 };
 
-const rrfConfig = {
-    userProfile: 'users',
-    useFirestoreForprofile: true // firestore에 프로필을 저장
-}
+// Initialize firebase instance
+firebase.initializeApp(firebaseConfig)
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// firebase 설정
-const createStoreWithFirebase = compose(
-    applyMiddleware(
-        reduxThunk.withExtraArgument(getFirebase)
-    ),
-    reactReduxFirebase(firebase, rrfConfig),
-)(createStore)
+const middleware = applyMiddleware(
+  reduxThunk
+)
 
 export default ({ children, initialState = {} }) => {
-
-    const store = createStoreWithFirebase(
-        reducers,
-        initialState
-    );
-
-    return (
-        <Provider store={store}>
-            {children}
-        </Provider>
-    );
-};
+  const store = createStore(
+    reducers,
+    initialState,
+    middleware
+  )
+  return (
+    <Provider store={store}>
+      {children}
+    </Provider>
+  )
+}
