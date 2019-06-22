@@ -23,8 +23,10 @@ export default class App extends Component {
         return (
             <div>
                 <HeaderNav />
-                <Route exact path="/" component={Home} />
-                <Route path="/posts" component={Posts} />
+                <section className="app-wrapper">
+                    <Route exact path="/" component={Home} />
+                    <Route path="/posts" component={Posts} />
+                </section>
             </div>
         )
     }
