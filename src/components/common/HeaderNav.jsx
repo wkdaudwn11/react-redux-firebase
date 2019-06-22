@@ -11,7 +11,7 @@ export default ({ isAuthed, handleLogout }) => (
         <Menu.Menu position='right'>
             { isAuthed ? (
                 <Menu.Item name="logout">
-                    <a onClick={handleLogout}>Log Out</a>
+                    <button onClick={handleLogout}>Log Out</button>
                 </Menu.Item>
             ) : (
                 <>
