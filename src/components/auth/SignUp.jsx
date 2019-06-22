@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
 import { Grid, Container, Button, Form } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+
+const enhance = connect(
+    ({ firebase: { auth, profile } }) => ({
+        auth,
+        profile
+    })
+)
 
 class SignUp extends Component {
-    handleInputChange = event => {
-        
+    
+    handleSubmit = ({ target }) => {
+        console.log('email', target.elements.email.value);
+        console.log('password', target.elements.password.value);
     }
 
     render() {
-        const username = '';
         return (
             <Container>
                 <Grid centered colums={2}>
                     <Grid.Column>
                         <h3>Sign Up</h3>
-                        <Form>
+                        <Form onSubmit={this.handleSubmit}>
                             <Form.Field>
                                 <label>Email</label>
-                                <input placeholder="Enter Email.." />
+                                <input name="email" placeholder="Enter Email.." />
                             </Form.Field>
                             <Form.Field>
                                 <label>Password</label>
-                                <input placeholder="Enter Password.." />
+                                <input name="password" placeholder="Enter Password.." />
                             </Form.Field>
                             <Button type="submit">Submit</Button>
                         </Form>
@@ -31,4 +40,4 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+export default enhance(SignUp);
