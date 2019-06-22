@@ -8,7 +8,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import * as alerts from '../../utils/alerts';
 
-const SignupSchema = Yup.object().shape({
+const LoginSchema = Yup.object().shape({
     email: Yup.string()
         .email('Invalid email')
         .required('Required'),
@@ -19,51 +19,42 @@ const SignupSchema = Yup.object().shape({
         .required('Required'),
 })
 
-/*
-const enhance = connect(
-    ({ firebase: { auth, profile } }) => ({
-        auth,
-        profile
-    })
-)
-*/
+class Login extends Component {
 
-class SignUp extends Component {
-    
     handleSubmit = (values, actions) => {
         actions.setSubmitting(true)
         const { email, password } = values;
-        
+
         firebase.auth()
-            .createUserWithEmailAndPassword(email, password)
+            .signInWithEmailAndPassword(email, password)
             .then(res => {
                 this.props.changeAuth(true)
-                alerts.success('Successfully registered!')
-                this.props.history.push("/posts")
+                alerts.success('Successfully logged in!')
+                this.props.history.push("posts")
             })
-            .catch(error => {
+            .catch(err => {
                 this.props.changeAuth(false)
-                alerts.error(error.message)
+                alerts.error(err.message)
             })
     }
 
     render() {
         return (
             <Container>
-                <Grid centered colums={2}>
+                <Grid centered columns={2}>
                     <Grid.Column>
-                        <Formik 
-                            initialValues={{email: '', password: ''}} // 초기화
+                        <Formik
+                            initialValues={{email: '', password: ''}}
                             onSubmit={this.handleSubmit}
-                            validationSchema={SignupSchema}
+                            validationSchema={LoginSchema}
                             render={({ errors, touched, isSubmitting }) => (
                                 <>
                                     <Message
                                         attached
-                                        header='Sign Up'
-                                        content='Fill out the form below to sign-up for a new account'
+                                        header='Sign In'
+                                        content='Fill out the form below to sign-in for a your account'
                                     />
-                                    <Form className="ui form">
+                                    <Form className="ui form attached fluid segment">
                                         <div className='field'>
                                             <label>Email</label>
                                             <Field type="email" name="email" disabled={isSubmitting} />
@@ -78,12 +69,11 @@ class SignUp extends Component {
                                     </Form>
                                     <br />
                                     <Message attached='button' warning>
-                                        Already signed up? <Link to="/login"> Login here</Link>
+                                        Not signed up? <Link to="/signup"> Sign up here</Link> instead.
                                     </Message>
                                 </>
                             )}
                         />
-
                     </Grid.Column>
                 </Grid>
             </Container>
@@ -91,8 +81,8 @@ class SignUp extends Component {
     }
 }
 
-const mapStateToProps = ({auth}) => ({
+const mapStateToProps = ({ auth }) => ({
     auth
 })
 
-export default connect(mapStateToProps, actions)(SignUp);
+export default connect(mapStateToProps, actions)(Login);

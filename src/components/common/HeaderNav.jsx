@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 
-export default ({ isAuthed, handleLogout }) => (
+export default ({ isAuthed, onLogout }) => (
     <Menu>
         <Menu.Item name='home'>
             <Link to="/">Home</Link>
@@ -17,7 +17,7 @@ export default ({ isAuthed, handleLogout }) => (
         <Menu.Menu position='right'>
             { isAuthed ? (
                 <Menu.Item name="logout">
-                    <button onClick={handleLogout}>Log Out</button>
+                    <Link to="#" onClick={onLogout}>Log Out</Link>
                 </Menu.Item>
             ) : (
                 <>
