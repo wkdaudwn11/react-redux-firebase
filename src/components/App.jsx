@@ -4,6 +4,8 @@ import Home from './Home';
 import Posts from './Posts';
 import { connect } from 'react-redux';
 import firebaseApp from '../utils/firebase';
+import HeaderNav from './common/HeaderNav';
+import "./assets/styles/app.scss";
 
 export default class App extends Component {
 
@@ -19,10 +21,11 @@ export default class App extends Component {
 
     render() {
         return (
-            <BrowserRouter>
+            <div>
+                <HeaderNav />
                 <Route exact path="/" component={Home} />
                 <Route path="/posts" component={Posts} />
-            </BrowserRouter>
+            </div>
         )
     }
 }
