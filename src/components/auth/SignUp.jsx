@@ -44,6 +44,7 @@ class SignUp extends Component {
             .catch(error => {
                 this.props.changeAuth(false)
                 alerts.error(error.message)
+                actions.resetForm()
             })
     }
 

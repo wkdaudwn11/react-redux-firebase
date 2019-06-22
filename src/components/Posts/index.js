@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import requireAuth from '../requireAuth'
 
-export default class Posts extends Component {
+class Posts extends Component {
     render() {
         return (
             <div>
@@ -9,3 +11,5 @@ export default class Posts extends Component {
         )
     }
 }
+
+export default connect(null)(requireAuth(Posts))

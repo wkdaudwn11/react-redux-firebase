@@ -34,7 +34,7 @@ class App extends React.Component {
         .auth()
         .signOut()
         .then(() => {
-            history.psuth('/login')
+            history.push('/login')
             alerts.success('Successfully logged out!')
         })
         .catch(error => {

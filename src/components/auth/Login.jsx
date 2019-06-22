@@ -35,6 +35,8 @@ class Login extends Component {
             .catch(err => {
                 this.props.changeAuth(false)
                 alerts.error(err.message)
+                actions.setSubmitting(false)
+                actions.resetForm()
             })
     }
 
@@ -47,7 +49,7 @@ class Login extends Component {
                             initialValues={{email: '', password: ''}}
                             onSubmit={this.handleSubmit}
                             validationSchema={LoginSchema}
-                            render={({ errors, touched, isSubmitting }) => (
+                            render={({ errors, touched, isSubmitting, status }) => (
                                 <>
                                     <Message
                                         attached
