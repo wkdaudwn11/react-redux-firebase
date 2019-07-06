@@ -6,7 +6,7 @@ class Posts extends Component {
     render() {
         return (
             <div>
-                this is posts index
+                this is posts index {this.props.auth}
             </div>
         )
     }
