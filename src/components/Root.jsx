@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import reduxThunk from 'redux-thunk'
+import logger from 'redux-logger'
 import reducers from './reducers'
 import firebase from 'firebase/app'
 import 'firebase/app'
@@ -23,7 +24,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 const middleware = applyMiddleware(
-  reduxThunk
+  reduxThunk,
+  logger
 )
 
 export default ({ children, initialState = {} }) => {
