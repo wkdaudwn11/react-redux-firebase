@@ -1,9 +1,15 @@
 import * as types from '../actions/types'
+import { CommentActions } from 'semantic-ui-react';
 
-export default (posts = [], action) => {
+const initialState = {
+    list: [],
+    showModal: false
+}
+
+export default (posts = initialState, action) => {
     switch (action.type) {
         case types.SET_POSTS:
-            return action.posts
+            return { ...posts, list: action.list }
         default:
             return posts
     }

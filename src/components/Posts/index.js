@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import requireAuth from '../requireAuth'
 import * as postsActions from '../actions/posts'
-import { Placeholder, Container, Table, Button } from 'semantic-ui-react';
+import { Container, Table, Button, Grid } from 'semantic-ui-react';
+import { PostsListPlaceholder } from '../common/placeholders';
+import PostRow from './PostRow';
 
 class Posts extends Component {
 
     state = {
-        loading: true
+        loading: true,
+        showPostModel: false
     }
 
     componentWillMount(){
@@ -16,44 +19,24 @@ class Posts extends Component {
         })
     }
 
-    renderPosts = () => {
-        const { posts } = this.props;
-
-        return posts.map(p => (
-            <Table.Row key={p.id}>
-                <Table.Cell>{p.title}</Table.Cell>
-                <Table.Cell>{p.body}</Table.Cell>
-                <Table.Cell>
-                    <Button.Group size='tiny'>
-                        <Button>Edit</Button>
-                        <Button icon="trash" negative />
-                    </Button.Group>
-                </Table.Cell>
-            </Table.Row>
-        ))
-    }
-
-    renderPlaceholder() {
-        return (
-            <Placeholder>
-                <Placeholder.Paragraph>
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                </Placeholder.Paragraph>
-            </Placeholder>
-        )
+    handleNew = () => {
+        this.setState({ showPostModel: true });
     }
 
     render() {
-        const { posts } = this.props;
+        const { list } = this.props;
 
         return (
             <Container>
-                <h2>Posts</h2>
-                { this.state.loading ? this.renderPlaceholder() : (
+
+                <Grid columns={2}>
+                    <Grid.Column><h2>Posts</h2></Grid.Column>
+                    <Grid.Column textAlign="right">
+                        <Button primay onClick={this.handleNew}>New Post</Button>
+                    </Grid.Column>
+                </Grid>
+
+                { this.state.loading ? <PostsListPlaceholder /> : (
                     <Table>
                         <Table.Header>
                             <Table.HeaderCell>Title</Table.HeaderCell>
@@ -61,7 +44,9 @@ class Posts extends Component {
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Header>
                         <Table.Body>
-                            { posts ? this.renderPosts() : (
+                            { list ? list.map(post => (
+                                <PostRow key={post.id} post={post} />
+                            )) : (
                                 <Table.Row>
                                     <Table.Cell>No Posts</Table.Cell>
                                 </Table.Row>
@@ -75,7 +60,7 @@ class Posts extends Component {
 }
 
 const mapStateToProps = ({ posts }) => ({
-    posts
+    list:posts.list
 })
 
 export default connect(mapStateToProps, postsActions)(requireAuth(Posts))
