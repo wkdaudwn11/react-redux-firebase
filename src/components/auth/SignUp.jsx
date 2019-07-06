@@ -37,12 +37,12 @@ class SignUp extends Component {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
             .then(res => {
-                this.props.changeAuth(true)
+                this.props.setAuth(true)
                 alerts.success('Successfully registered!')
                 this.props.history.push("/posts")
             })
             .catch(error => {
-                this.props.changeAuth(false)
+                this.props.setAuth(false)
                 alerts.error(error.message)
                 actions.resetForm()
             })
