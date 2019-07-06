@@ -2,12 +2,16 @@ import * as types from './types';
 import firestore from '../../utils/firebase/firestore';
 
 export const fetchPosts = () => dispatch => {
-    firestore.collenction("posts").get().then((querySnapshot) => {
+    const posts = []
+    
+    return firestore.collection("posts").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`)
+            let data = doc.data()
+            let { title, body } = data;
+            posts.push({ id: doc.id, title: title, body: body })
         })
+        dispatch(setPosts(posts))
     })
-    dispatch(setPosts([]))
 }
 
 export const setPosts = (posts) => ({
